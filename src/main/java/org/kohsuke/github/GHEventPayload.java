@@ -91,7 +91,7 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
     // ContentReferenceEvent
     // DeployKeyEvent DownloadEvent FollowEvent ForkApplyEvent GitHubAppAuthorizationEvent GistEvent GollumEvent
     // InstallationEvent InstallationRepositoriesEvent IssuesEvent LabelEvent MarketplacePurchaseEvent MemberEvent
-    // MembershipEvent MetaEvent MilestoneEvent OrganizationEvent OrgBlockEvent PackageEvent PageBuildEvent
+    // MembershipEvent MetaEvent OrganizationEvent OrgBlockEvent PackageEvent PageBuildEvent
     // ProjectCardEvent ProjectColumnEvent ProjectEvent RepositoryDispatchEvent RepositoryImportEvent
     // RepositoryVulnerabilityAlertEvent SecurityAdvisoryEvent StarEvent StatusEvent TeamEvent TeamAddEvent WatchEvent
 
@@ -2038,6 +2038,32 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
                 throw new IllegalStateException("Organization must not be null");
             }
             team.wrapUp(organization);
+        }
+    }
+
+    /**
+     * A milestone event was triggered.
+     *
+     * @see <a href="https://docs.github.com/en/webhooks/webhook-events-and-payloads#milestone">milestone event</a>
+     */
+    public static class Milestone extends GHEventPayload {
+            
+        /**
+        * Create default Milestone instance
+        */
+        public Milestone() {
+        }
+    
+        private GHMilestone milestone;
+        
+        /**
+        * Gets the milestone.
+        *
+        * @return the milestone
+        */
+        @SuppressFBWarnings(value = { "EI_EXPOSE_REP" }, justification = "Expected")
+        public GHMilestone getMilestone() {
+            return milestone;
         }
     }
 }
