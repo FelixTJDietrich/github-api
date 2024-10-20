@@ -934,6 +934,7 @@ public class GHPullRequestTest extends AbstractGitHubWireMockTest {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
+    //
     // @Test
     // public void checkNonExistentReviewer() throws IOException {
     // // PR id is based on https://github.com/sahansera/TestRepo/pull/1
