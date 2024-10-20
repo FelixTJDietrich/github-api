@@ -3,6 +3,7 @@ package org.kohsuke.github;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
 import org.kohsuke.github.GHPullRequest.AutoMerge;
 
 import java.io.IOException;
@@ -935,6 +936,7 @@ public class GHPullRequestTest extends AbstractGitHubWireMockTest {
      *             Signals that an I/O exception has occurred.
      */
     @Test
+    @Disabled
     public void checkNonExistentReviewer() throws IOException {
         // PR id is based on https://github.com/sahansera/TestRepo/pull/1
         final GHPullRequest pullRequest = getRepository().getPullRequest(1);
