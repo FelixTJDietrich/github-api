@@ -3,7 +3,6 @@ package org.kohsuke.github;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.jupiter.api.Disabled;
 import org.kohsuke.github.GHPullRequest.AutoMerge;
 
 import java.io.IOException;
@@ -937,14 +936,14 @@ public class GHPullRequestTest extends AbstractGitHubWireMockTest {
      */
     // @Test
     // public void checkNonExistentReviewer() throws IOException {
-    //     // PR id is based on https://github.com/sahansera/TestRepo/pull/1
-    //     final GHPullRequest pullRequest = getRepository().getPullRequest(1);
-    //     final Optional<GHPullRequestReview> review = pullRequest.listReviews().toList().stream().findFirst();
-    //     final GHUser reviewer = review.get().getUser();
+    // // PR id is based on https://github.com/sahansera/TestRepo/pull/1
+    // final GHPullRequest pullRequest = getRepository().getPullRequest(1);
+    // final Optional<GHPullRequestReview> review = pullRequest.listReviews().toList().stream().findFirst();
+    // final GHUser reviewer = review.get().getUser();
 
-    //     assertThat(pullRequest.getRequestedReviewers(), is(empty()));
-    //     assertThat(review, notNullValue());
-    //     assertThat(reviewer, is(nullValue()));
+    // assertThat(pullRequest.getRequestedReviewers(), is(empty()));
+    // assertThat(review, notNullValue());
+    // assertThat(reviewer, is(nullValue()));
     // }
 
     /**
