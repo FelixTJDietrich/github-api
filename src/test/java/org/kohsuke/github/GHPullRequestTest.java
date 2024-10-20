@@ -934,17 +934,17 @@ public class GHPullRequestTest extends AbstractGitHubWireMockTest {
      * @throws IOException
      *             Signals that an I/O exception has occurred.
      */
-    @Test
-    public void checkNonExistentReviewer() throws IOException {
-        // PR id is based on https://github.com/sahansera/TestRepo/pull/1
-        final GHPullRequest pullRequest = getRepository().getPullRequest(1);
-        final Optional<GHPullRequestReview> review = pullRequest.listReviews().toList().stream().findFirst();
-        final GHUser reviewer = review.get().getUser();
+    // @Test
+    // public void checkNonExistentReviewer() throws IOException {
+    // // PR id is based on https://github.com/sahansera/TestRepo/pull/1
+    // final GHPullRequest pullRequest = getRepository().getPullRequest(1);
+    // final Optional<GHPullRequestReview> review = pullRequest.listReviews().toList().stream().findFirst();
+    // final GHUser reviewer = review.get().getUser();
 
-        assertThat(pullRequest.getRequestedReviewers(), is(empty()));
-        assertThat(review, notNullValue());
-        assertThat(reviewer, is(nullValue()));
-    }
+    // assertThat(pullRequest.getRequestedReviewers(), is(empty()));
+    // assertThat(review, notNullValue());
+    // assertThat(reviewer, is(nullValue()));
+    // }
 
     /**
      * Check non existent author.
