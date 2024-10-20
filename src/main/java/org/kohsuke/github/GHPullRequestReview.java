@@ -96,10 +96,7 @@ public class GHPullRequestReview extends GHObject {
      *             the io exception
      */
     public GHUser getUser() throws IOException {
-        if (user != null) {
-            return owner.root().getUser(user.getLogin());
-        }
-        return null;
+        return owner == null || owner.isOffline() ? user : owner.root().getUser(user.login);
     }
 
     /**

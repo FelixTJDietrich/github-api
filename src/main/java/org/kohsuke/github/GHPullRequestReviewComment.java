@@ -113,7 +113,7 @@ public class GHPullRequestReviewComment extends GHObject implements Reactable {
      *             the io exception
      */
     public GHUser getUser() throws IOException {
-        return owner.root().getUser(user.getLogin());
+        return owner == null || owner.isOffline() ? user : owner.root().getUser(user.login);
     }
 
     /**
