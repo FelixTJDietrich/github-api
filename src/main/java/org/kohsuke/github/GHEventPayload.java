@@ -2047,20 +2047,20 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
      * @see <a href="https://docs.github.com/en/webhooks/webhook-events-and-payloads#milestone">milestone event</a>
      */
     public static class Milestone extends GHEventPayload {
-            
+
         /**
-        * Create default Milestone instance
-        */
+         * Create default Milestone instance
+         */
         public Milestone() {
         }
-    
+
         private GHMilestone milestone;
-        
+
         /**
-        * Gets the milestone.
-        *
-        * @return the milestone
-        */
+         * Gets the milestone.
+         *
+         * @return the milestone
+         */
         @SuppressFBWarnings(value = { "EI_EXPOSE_REP" }, justification = "Expected")
         public GHMilestone getMilestone() {
             return milestone;
