@@ -1,4 +1,4 @@
 jdk:
-  version: openjdk-17
+  - openjdk17
 maven:
   version: 3.8.6
