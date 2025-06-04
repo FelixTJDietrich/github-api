@@ -999,6 +999,32 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
     }
 
     /**
+     * A milestone event was triggered.
+     *
+     * @see <a href="https://docs.github.com/en/webhooks/webhook-events-and-payloads#milestone">milestone event</a>
+     */
+    public static class Milestone extends GHEventPayload {
+
+        private GHMilestone milestone;
+
+        /**
+         * Create default Milestone instance
+         */
+        public Milestone() {
+        }
+
+        /**
+         * Gets the milestone.
+         *
+         * @return the milestone
+         */
+        @SuppressFBWarnings(value = { "EI_EXPOSE_REP" }, justification = "Expected")
+        public GHMilestone getMilestone() {
+            return milestone;
+        }
+    }
+
+    /**
      * A ping.
      *
      * <a href="https://docs.github.com/en/developers/webhooks-and-events/webhook-events-and-payloads#ping"> ping
@@ -1969,32 +1995,6 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
             }
             workflowRun.wrapUp(repository);
             workflow.wrapUp(repository);
-        }
-    }
-
-    /**
-     * A milestone event was triggered.
-     *
-     * @see <a href="https://docs.github.com/en/webhooks/webhook-events-and-payloads#milestone">milestone event</a>
-     */
-    public static class Milestone extends GHEventPayload {
-
-        /**
-         * Create default Milestone instance
-         */
-        public Milestone() {
-        }
-
-        private GHMilestone milestone;
-
-        /**
-         * Gets the milestone.
-         *
-         * @return the milestone
-         */
-        @SuppressFBWarnings(value = { "EI_EXPOSE_REP" }, justification = "Expected")
-        public GHMilestone getMilestone() {
-            return milestone;
         }
     }
 
