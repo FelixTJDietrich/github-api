@@ -1972,6 +1972,32 @@ public abstract class GHEventPayload extends GitHubInteractiveObject {
         }
     }
 
+    /**
+     * A milestone event was triggered.
+     *
+     * @see <a href="https://docs.github.com/en/webhooks/webhook-events-and-payloads#milestone">milestone event</a>
+     */
+    public static class Milestone extends GHEventPayload {
+
+        /**
+         * Create default Milestone instance
+         */
+        public Milestone() {
+        }
+
+        private GHMilestone milestone;
+
+        /**
+         * Gets the milestone.
+         *
+         * @return the milestone
+         */
+        @SuppressFBWarnings(value = { "EI_EXPOSE_REP" }, justification = "Expected")
+        public GHMilestone getMilestone() {
+            return milestone;
+        }
+    }
+ 
     // https://docs.github.com/en/free-pro-team@latest/developers/webhooks-and-events/webhook-events-and-payloads#webhook-payload-object-common-properties
     // Webhook payload object common properties: action, sender, repository, organization, installation
     private String action;
