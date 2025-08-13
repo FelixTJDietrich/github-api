@@ -15,7 +15,7 @@ import java.util.Objects;
  *
  * @author Liam Newman
  */
-abstract class GitHubInteractiveObject {
+abstract class GitHubInteractiveObject extends GitHubBridgeAdapterObject {
     @JacksonInject
     @CheckForNull
     private transient final GitHub root;
@@ -38,22 +38,21 @@ abstract class GitHubInteractiveObject {
     }
 
     /**
-     * Get the root {@link GitHub} instance for this object.
-     *
-     * @return the root {@link GitHub} instance
-     */
-    @NonNull
-    GitHub root() {
-        return Objects.requireNonNull(root,
-                "The root GitHub reference for this instance is null. Probably caused by deserializing this class without using a GitHub instance. If you must do this, use the MappingObjectReader from GitHub.getMappingObjectReader().");
-    }
-
-    /**
      * Object is offline.
      *
      * @return true if GitHub instance is null or offline.
      */
     boolean isOffline() {
         return root == null || root.isOffline();
+    }
+
+    /**
+     * Get the root {@link GitHub} instance for this object.
+     *
+     * @return the root {@link GitHub} instance
+     */
+    @NonNull GitHub root() {
+        return Objects.requireNonNull(root,
+                "The root GitHub reference for this instance is null. Probably caused by deserializing this class without using a GitHub instance. If you must do this, use the MappingObjectReader from GitHub.getMappingObjectReader().");
     }
 }

@@ -1,8 +1,10 @@
 package org.kohsuke.github;
 
+import com.infradna.tool.bridge_method_injector.WithBridgeMethods;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.kohsuke.github.internal.EnumUtils;
 
+import java.time.Instant;
 import java.util.Date;
 
 // TODO: Auto-generated Javadoc
@@ -12,45 +14,25 @@ import java.util.Date;
  * Note that this is best effort only as nothing is documented in the GitHub documentation.
  */
 @SuppressFBWarnings(value = { "UWF_UNWRITTEN_FIELD" }, justification = "JSON API")
-public class GHProjectsV2ItemChanges {
+public class GHProjectsV2ItemChanges extends GitHubBridgeAdapterObject {
 
     /**
-     * Create default GHProjectsV2ItemChanges instance
+     * The Enum FieldType.
      */
-    public GHProjectsV2ItemChanges() {
-    }
+    public enum FieldType {
 
-    private FieldValue fieldValue;
-
-    private FromToDate archivedAt;
-
-    private FromTo previousProjectsV2ItemNodeId;
-
-    /**
-     * Gets the field value.
-     *
-     * @return the field value
-     */
-    public FieldValue getFieldValue() {
-        return fieldValue;
-    }
-
-    /**
-     * Gets the archived at.
-     *
-     * @return the archived at
-     */
-    public FromToDate getArchivedAt() {
-        return archivedAt;
-    }
-
-    /**
-     * Gets the previous projects V 2 item node id.
-     *
-     * @return the previous projects V 2 item node id
-     */
-    public FromTo getPreviousProjectsV2ItemNodeId() {
-        return previousProjectsV2ItemNodeId;
+        /** The date. */
+        DATE,
+        /** The iteration. */
+        ITERATION,
+        /** The number. */
+        NUMBER,
+        /** The single select. */
+        SINGLE_SELECT,
+        /** The text. */
+        TEXT,
+        /** The unknown. */
+        UNKNOWN;
     }
 
     /**
@@ -58,14 +40,14 @@ public class GHProjectsV2ItemChanges {
      */
     public static class FieldValue {
 
+        private String fieldNodeId;
+
+        private String fieldType;
         /**
          * Create default FieldValue instance
          */
         public FieldValue() {
         }
-
-        private String fieldNodeId;
-        private String fieldType;
 
         /**
          * Gets the field node id.
@@ -91,14 +73,14 @@ public class GHProjectsV2ItemChanges {
      */
     public static class FromTo {
 
+        private String from;
+
+        private String to;
         /**
          * Create default FromTo instance
          */
         public FromTo() {
         }
-
-        private String from;
-        private String to;
 
         /**
          * Gets the from.
@@ -124,22 +106,23 @@ public class GHProjectsV2ItemChanges {
      */
     public static class FromToDate {
 
+        private String from;
+
+        private String to;
         /**
          * Create default FromToDate instance
          */
         public FromToDate() {
         }
 
-        private String from;
-        private String to;
-
         /**
          * Gets the from.
          *
          * @return the from
          */
-        public Date getFrom() {
-            return GitHubClient.parseDate(from);
+        @WithBridgeMethods(value = Date.class, adapterMethod = "instantToDate")
+        public Instant getFrom() {
+            return GitHubClient.parseInstant(from);
         }
 
         /**
@@ -147,27 +130,48 @@ public class GHProjectsV2ItemChanges {
          *
          * @return the to
          */
-        public Date getTo() {
-            return GitHubClient.parseDate(to);
+        @WithBridgeMethods(value = Date.class, adapterMethod = "instantToDate")
+        public Instant getTo() {
+            return GitHubClient.parseInstant(to);
         }
     }
 
-    /**
-     * The Enum FieldType.
-     */
-    public enum FieldType {
+    private FromToDate archivedAt;
 
-        /** The text. */
-        TEXT,
-        /** The number. */
-        NUMBER,
-        /** The date. */
-        DATE,
-        /** The single select. */
-        SINGLE_SELECT,
-        /** The iteration. */
-        ITERATION,
-        /** The unknown. */
-        UNKNOWN;
+    private FieldValue fieldValue;
+
+    private FromTo previousProjectsV2ItemNodeId;
+
+    /**
+     * Create default GHProjectsV2ItemChanges instance
+     */
+    public GHProjectsV2ItemChanges() {
+    }
+
+    /**
+     * Gets the archived at.
+     *
+     * @return the archived at
+     */
+    public FromToDate getArchivedAt() {
+        return archivedAt;
+    }
+
+    /**
+     * Gets the field value.
+     *
+     * @return the field value
+     */
+    public FieldValue getFieldValue() {
+        return fieldValue;
+    }
+
+    /**
+     * Gets the previous projects V 2 item node id.
+     *
+     * @return the previous projects V 2 item node id
+     */
+    public FromTo getPreviousProjectsV2ItemNodeId() {
+        return previousProjectsV2ItemNodeId;
     }
 }

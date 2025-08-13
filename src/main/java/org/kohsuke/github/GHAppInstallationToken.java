@@ -1,6 +1,8 @@
 package org.kohsuke.github;
 
-import java.io.IOException;
+import com.infradna.tool.bridge_method_injector.WithBridgeMethods;
+
+import java.time.Instant;
 import java.util.*;
 
 // TODO: Auto-generated Javadoc
@@ -12,19 +14,29 @@ import java.util.*;
  */
 public class GHAppInstallationToken extends GitHubInteractiveObject {
 
+    private Map<String, String> permissions;
+
+    private List<GHRepository> repositories;
+
+    private GHRepositorySelection repositorySelection;
+    private String token;
+    /** The expires at. */
+    protected String expiresAt;
     /**
      * Create default GHAppInstallationToken instance
      */
     public GHAppInstallationToken() {
     }
 
-    private String token;
-
-    /** The expires at. */
-    protected String expires_at;
-    private Map<String, String> permissions;
-    private List<GHRepository> repositories;
-    private GHRepositorySelection repositorySelection;
+    /**
+     * Gets expires at.
+     *
+     * @return date when this token expires
+     */
+    @WithBridgeMethods(value = Date.class, adapterMethod = "instantToDate")
+    public Instant getExpiresAt() {
+        return GitHubClient.parseInstant(expiresAt);
+    }
 
     /**
      * Gets permissions.
@@ -33,15 +45,6 @@ public class GHAppInstallationToken extends GitHubInteractiveObject {
      */
     public Map<String, String> getPermissions() {
         return Collections.unmodifiableMap(permissions);
-    }
-
-    /**
-     * Gets token.
-     *
-     * @return the token
-     */
-    public String getToken() {
-        return token;
     }
 
     /**
@@ -63,13 +66,11 @@ public class GHAppInstallationToken extends GitHubInteractiveObject {
     }
 
     /**
-     * Gets expires at.
+     * Gets token.
      *
-     * @return date when this token expires
-     * @throws IOException
-     *             on error
+     * @return the token
      */
-    public Date getExpiresAt() throws IOException {
-        return GitHubClient.parseDate(expires_at);
+    public String getToken() {
+        return token;
     }
 }

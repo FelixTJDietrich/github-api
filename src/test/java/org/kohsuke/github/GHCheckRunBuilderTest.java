@@ -29,6 +29,7 @@ import org.junit.Test;
 import org.kohsuke.github.GHCheckRun.Status;
 
 import java.io.IOException;
+import java.time.Instant;
 import java.util.Date;
 
 import static org.hamcrest.Matchers.*;
@@ -44,17 +45,6 @@ public class GHCheckRunBuilderTest extends AbstractGHAppInstallationTest {
      * Create default GHCheckRunBuilderTest instance
      */
     public GHCheckRunBuilderTest() {
-    }
-
-    /**
-     * Gets the installation github.
-     *
-     * @return the installation github
-     * @throws IOException
-     *             Signals that an I/O exception has occurred.
-     */
-    protected GitHub getInstallationGithub() throws IOException {
-        return getAppInstallationWithToken(jwtProvider3.getEncodedAuthorization()).root();
     }
 
     /**
@@ -87,6 +77,28 @@ public class GHCheckRunBuilderTest extends AbstractGHAppInstallationTest {
         assertThat(checkRun.getOutput().getAnnotationsCount(), equalTo(1));
         assertThat(checkRun.getId(), equalTo(1424883286L));
         assertThat(checkRun.getOutput().getText(), equalTo("Hello Text!"));
+    }
+
+    /**
+     * Creates the check run err missing conclusion.
+     *
+     * @throws Exception
+     *             the exception
+     */
+    @Test
+    public void createCheckRunErrMissingConclusion() throws Exception {
+        try {
+            getInstallationGithub().getRepository("hub4j-test-org/test-checks")
+                    .createCheckRun("outstanding", "89a9ae301e35e667756034fdc933b1fc94f63fc1")
+                    .withStatus(GHCheckRun.Status.COMPLETED)
+                    .create();
+            fail("should have been rejected");
+        } catch (HttpException x) {
+            assertThat(x.getResponseCode(), equalTo(422));
+            assertThat(x.getMessage(), containsString("\\\"conclusion\\\" wasn't supplied"));
+            assertThat(x.getUrl(), containsString("/repos/hub4j-test-org/test-checks/check-runs"));
+            assertThat(x.getResponseMessage(), containsString("Unprocessable Entity"));
+        }
     }
 
     /**
@@ -153,28 +165,6 @@ public class GHCheckRunBuilderTest extends AbstractGHAppInstallationTest {
     }
 
     /**
-     * Creates the check run err missing conclusion.
-     *
-     * @throws Exception
-     *             the exception
-     */
-    @Test
-    public void createCheckRunErrMissingConclusion() throws Exception {
-        try {
-            getInstallationGithub().getRepository("hub4j-test-org/test-checks")
-                    .createCheckRun("outstanding", "89a9ae301e35e667756034fdc933b1fc94f63fc1")
-                    .withStatus(GHCheckRun.Status.COMPLETED)
-                    .create();
-            fail("should have been rejected");
-        } catch (HttpException x) {
-            assertThat(x.getResponseCode(), equalTo(422));
-            assertThat(x.getMessage(), containsString("\\\"conclusion\\\" wasn't supplied"));
-            assertThat(x.getUrl(), containsString("/repos/hub4j-test-org/test-checks/check-runs"));
-            assertThat(x.getResponseMessage(), containsString("Unprocessable Entity"));
-        }
-    }
-
-    /**
      * Update check run.
      *
      * @throws Exception
@@ -185,7 +175,7 @@ public class GHCheckRunBuilderTest extends AbstractGHAppInstallationTest {
         GHCheckRun checkRun = getInstallationGithub().getRepository("hub4j-test-org/test-checks")
                 .createCheckRun("foo", "89a9ae301e35e667756034fdc933b1fc94f63fc1")
                 .withStatus(GHCheckRun.Status.IN_PROGRESS)
-                .withStartedAt(new Date(999_999_000))
+                .withStartedAt(Instant.ofEpochMilli(999_999_000))
                 .add(new GHCheckRunBuilder.Output("Some Title", "what happened…")
                         .add(new GHCheckRunBuilder.Annotation("stuff.txt",
                                 1,
@@ -197,7 +187,7 @@ public class GHCheckRunBuilderTest extends AbstractGHAppInstallationTest {
                 .withConclusion(GHCheckRun.Conclusion.SUCCESS)
                 .withCompletedAt(new Date(999_999_999))
                 .create();
-        assertThat(new Date(999_999_000), equalTo(updated.getStartedAt()));
+        assertThat(Instant.ofEpochMilli(999_999_000), equalTo(updated.getStartedAt()));
         assertThat("foo", equalTo(updated.getName()));
         assertThat(checkRun.getOutput().getAnnotationsCount(), equalTo(1));
     }
@@ -213,7 +203,7 @@ public class GHCheckRunBuilderTest extends AbstractGHAppInstallationTest {
         GHCheckRun checkRun = getInstallationGithub().getRepository("hub4j-test-org/test-checks")
                 .createCheckRun("foo", "89a9ae301e35e667756034fdc933b1fc94f63fc1")
                 .withStatus(GHCheckRun.Status.IN_PROGRESS)
-                .withStartedAt(new Date(999_999_000))
+                .withStartedAt(Instant.ofEpochMilli(999_999_000))
                 .add(new GHCheckRunBuilder.Output("Some Title", "what happened…")
                         .add(new GHCheckRunBuilder.Annotation("stuff.txt",
                                 1,
@@ -223,10 +213,10 @@ public class GHCheckRunBuilderTest extends AbstractGHAppInstallationTest {
         GHCheckRun updated = checkRun.update()
                 .withStatus(GHCheckRun.Status.COMPLETED)
                 .withConclusion(GHCheckRun.Conclusion.SUCCESS)
-                .withCompletedAt(new Date(999_999_999))
+                .withCompletedAt(Instant.ofEpochMilli(999_999_999))
                 .withName("bar", checkRun.getName())
                 .create();
-        assertThat(new Date(999_999_000), equalTo(updated.getStartedAt()));
+        assertThat(Instant.ofEpochMilli(999_999_000), equalTo(updated.getStartedAt()));
         assertThat("bar", equalTo(updated.getName()));
         assertThat(checkRun.getOutput().getAnnotationsCount(), equalTo(1));
     }
@@ -243,7 +233,7 @@ public class GHCheckRunBuilderTest extends AbstractGHAppInstallationTest {
         GHCheckRun checkRun = getInstallationGithub().getRepository("hub4j-test-org/test-checks")
                 .createCheckRun("foo", "89a9ae301e35e667756034fdc933b1fc94f63fc1")
                 .withStatus(GHCheckRun.Status.IN_PROGRESS)
-                .withStartedAt(new Date(999_999_000))
+                .withStartedAt(Instant.ofEpochMilli(999_999_000))
                 .add(new GHCheckRunBuilder.Output("Some Title", "what happened…")
                         .add(new GHCheckRunBuilder.Annotation("stuff.txt",
                                 1,
@@ -257,5 +247,16 @@ public class GHCheckRunBuilderTest extends AbstractGHAppInstallationTest {
                         .withCompletedAt(new Date(999_999_999))
                         .withName("bar", null)
                         .create());
+    }
+
+    /**
+     * Gets the installation github.
+     *
+     * @return the installation github
+     * @throws IOException
+     *             Signals that an I/O exception has occurred.
+     */
+    protected GitHub getInstallationGithub() throws IOException {
+        return getAppInstallationWithToken(jwtProvider3.getEncodedAuthorization()).root();
     }
 }
