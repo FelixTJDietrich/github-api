@@ -49,6 +49,7 @@
       <id>sonatype-nexus-staging</id>
       <name>Nexus Release Repository</name>
       <url>${nexus.serverUrl}/service/local/staging/deploy/maven2/</url>
+    </repository>
     <snapshotRepository>
       <id>github</id>
       <url>https://maven.pkg.github.com/FelixTJDietrich/github-api</url>
