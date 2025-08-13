@@ -491,14 +491,6 @@ public class GHEventPayloadTest extends AbstractGitHubWireMockTest {
     // @Test
     // public void membership() throws Exception {}
 
-    // TODO implement support classes and write test
-    // @Test
-    // public void milestone() throws Exception {}
-
-    // TODO implement support classes and write test
-    // @Test
-    // public void page_build() throws Exception {}
-
     /**
      * Discussion labeled.
      *
@@ -562,6 +554,10 @@ public class GHEventPayloadTest extends AbstractGitHubWireMockTest {
         assertThat(label.isDefault(), is(false));
         assertThat(label.getDescription(), is(nullValue()));
     }
+
+    // TODO implement support classes and write test
+    // @Test
+    // public void page_build() throws Exception {}
 
     /**
      * Fork.
@@ -884,6 +880,40 @@ public class GHEventPayloadTest extends AbstractGitHubWireMockTest {
         assertThat(team.getDescription(), is("Description"));
         assertThat(team.getPrivacy(), is(Privacy.CLOSED));
         assertThat(team.getOrganization().getLogin(), is("gsmet-bot-playground"));
+    }
+
+    /**
+     * Milestone event.
+     *
+     * @throws Exception
+     *             the exception
+     */
+    @Test
+    @Payload("milestone")
+    public void milestone() throws Exception {
+        final GHEventPayload.Milestone event = GitHub.offline()
+                .parseEventPayload(payload.asReader(), GHEventPayload.Milestone.class);
+
+        assertThat(event.getAction(), is("created"));
+
+        GHMilestone ms = event.getMilestone();
+        assertThat(ms, notNullValue());
+        assertThat(ms.getTitle(), is("I am a milestone"));
+        assertThat(ms.getNumber(), is(3));
+        assertThat(ms.getState(), is(GHMilestoneState.OPEN));
+        assertThat(ms.getOpenIssues(), is(0));
+        assertThat(ms.getClosedIssues(), is(0));
+        assertThat(ms.getCreator().getLogin(), is("baxterthehacker"));
+        assertThat(ms.getHtmlUrl().toString(),
+                startsWith("https://github.com/baxterandthehackers/public-repo/milestones/"));
+
+        assertThat(event.getRepository().getName(), is("public-repo"));
+        assertThat(event.getRepository().getOwner().getLogin(), is("baxterandthehackers"));
+        assertThat(event.getSender().getLogin(), is("baxterthehacker"));
+
+        // Also cover the default constructor and getter directly
+        GHEventPayload.Milestone empty = new GHEventPayload.Milestone();
+        assertThat(empty.getMilestone(), nullValue());
     }
 
     /**
